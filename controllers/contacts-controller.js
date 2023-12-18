@@ -13,8 +13,8 @@ const listContacts = async (req, res, next) => {
 
 const getById = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const contactResult = await contactsService.getContactById(id);
+    const { contactId } = req.params;
+    const contactResult = await contactsService.getContactById(contactId);
     if (!contactResult) {
       throw HttpError(404);
     }

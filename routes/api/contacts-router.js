@@ -5,7 +5,7 @@ const contactsRouter = express.Router();
 
 contactsRouter.get("/", contactsController.listContacts);
 
-contactsRouter.get("/:id", contactsController.getById);
+contactsRouter.get("/:contactId", contactsController.getById);
 
 contactsRouter.post("/", async (req, res, next) => {
   res.json({ message: "template message" });
