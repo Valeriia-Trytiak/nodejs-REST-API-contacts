@@ -3,20 +3,14 @@ import contactsController from "../../controllers/contacts-controller.js";
 
 const contactsRouter = express.Router();
 
-contactsRouter.get("/", contactsController.listContacts);
+contactsRouter.get("/", contactsController.getAllContacts);
 
 contactsRouter.get("/:contactId", contactsController.getById);
 
-contactsRouter.post("/", async (req, res, next) => {
-  res.json({ message: "template message" });
-});
+contactsRouter.post("/", contactsController.addContact);
 
-contactsRouter.delete("/:contactId", async (req, res, next) => {
-  res.json({ message: "template message" });
-});
+contactsRouter.delete("/:contactId", contactsController.removeContact);
 
-contactsRouter.put("/:contactId", async (req, res, next) => {
-  res.json({ message: "template message" });
-});
+contactsRouter.put("/:contactId", contactsController.updateContact);
 
 export default contactsRouter;

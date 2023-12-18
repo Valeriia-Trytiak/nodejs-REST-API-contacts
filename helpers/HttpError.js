@@ -1,14 +1,14 @@
-const messageList = {
-  400: "Bad request",
+const messageErrorList = {
+  400: "Bad Request",
   401: "Unauthorized",
   403: "Forbidden",
   404: "Not found",
   409: "Conflict",
 };
 
-const HttpError = (status, message = messageList[status]) => {
+const HttpError = (statusError, message = messageErrorList[statusError]) => {
   const error = new Error(message);
-  error.status = status;
+  error.status = statusError;
   return error;
 };
 
