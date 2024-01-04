@@ -6,7 +6,7 @@ import User from "../models/User.js";
 import { HttpError } from "../helpers/index.js";
 import { ctrlWrapper } from "../decorators/index.js";
 
-const { JWS_SECRET } = process.env;
+const { JWT_SECRET } = process.env;
 const register = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
@@ -36,7 +36,7 @@ const login = async (req, res) => {
   }
   const { _id: id } = user;
   const playload = { id };
-  const token = jwt.sign(playload, JWS_SECRET, { expiresIn: "23h" });
+  const token = jwt.sign(playload, JWT_SECRET, { expiresIn: "23h" });
 
   res.json({
     token: token,
