@@ -57,7 +57,15 @@ const logout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: null });
 
-  res.status(204);
+  res.status(204).send();
+};
+
+const subscription = async (req, res) => {
+  const { _id, email } = req.user;
+  const { subscription } = req.body;
+  await User.findByIdAndUpdate(_id, { subscription: `${subscription}` });
+
+  res.json({ email, subscription });
 };
 
 export default {
@@ -65,4 +73,5 @@ export default {
   login: ctrlWrapper(login),
   getCurrent: ctrlWrapper(getCurrent),
   logout: ctrlWrapper(logout),
+  subscription: ctrlWrapper(subscription),
 };
