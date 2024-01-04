@@ -37,7 +37,7 @@ const login = async (req, res) => {
   const { _id: id } = user;
   const playload = { id };
   const token = jwt.sign(playload, JWT_SECRET, { expiresIn: "23h" });
-
+  await User.findByIdAndUpdate(id, { token });
   res.json({
     token: token,
     user: {
@@ -46,7 +46,23 @@ const login = async (req, res) => {
     },
   });
 };
+
+const getCurrent = async (req, res) => {
+  const { email, subscription } = req.user;
+
+  res.json({ email, subscription });
+};
+
+const logout = async (req, res) => {
+  const { _id } = req.user;
+  await User.findByIdAndUpdate(_id, { token: null });
+
+  res.status(204);
+};
+
 export default {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
+  getCurrent: ctrlWrapper(getCurrent),
+  logout: ctrlWrapper(logout),
 };

@@ -8,5 +8,6 @@ const authRouter = express.Router();
 
 authRouter.post("/register", isEmplyBody("missing fields"), validateBody(userRegisterSchema), authController.register);
 authRouter.post("/login", isEmplyBody("missing fields"), validateBody(userLoginSchema), authController.login);
-authRouter.post("/logout", userenticate);
+authRouter.get("/current", userenticate, authController.getCurrent);
+authRouter.post("/logout", userenticate, authController.logout);
 export default authRouter;
