@@ -5,13 +5,22 @@ import { ctrlWrapper } from "../decorators/index.js";
 
 const getAllContacts = async (req, res) => {
   const { _id: owner } = req.user;
-  const { page = 1, limit = 20 } = req.query;
+  const { page = 1, limit = 20, favorite } = req.query;
+  const query = { owner };
   const skip = (page - 1) * limit;
-  const result = await Contact.find({ owner }, "-createdAt -updatedAt", { skip, limit }).populate("owner", [
+
+  if (favorite !== undefined) {
+    query.favorite = favorite === "true";
+  }
+  const result = await Contact.find(query, "-createdAt -updatedAt", { skip, limit }).populate("owner", [
     "email",
     "subscription",
   ]);
-  res.json(result);
+  if (result.length === 0) {
+    res.json("No contacts found");
+  } else {
+    res.json({ contacts: result, currentPage: page });
+  }
 };
 
 const getById = async (req, res, next) => {
