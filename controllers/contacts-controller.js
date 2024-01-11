@@ -17,7 +17,7 @@ const getAllContacts = async (req, res) => {
     "subscription",
   ]);
   if (result.length === 0) {
-    res.json("No contacts found");
+    res.json({ message: "No contacts found" });
   } else {
     res.json({ contacts: result, currentPage: page });
   }
