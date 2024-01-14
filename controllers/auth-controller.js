@@ -78,17 +78,19 @@ const subscription = async (req, res) => {
 const updateAvatar = async (req, res) => {
   const { _id, avatarURL } = req.user;
   const { path: tmpUpload, originalname } = req.file;
+
   const filename = `${_id}-${originalname}`;
   const avatarsUpload = path.join(avatarPath, filename);
+  const newAvatarURL = path.join("avatars", filename);
 
   try {
     await fs.rename(tmpUpload, avatarsUpload);
     const avatar = await Jimp.read(avatarsUpload);
     avatar.resize(250, 250);
+    await avatar.writeAsync(avatarsUpload);
 
-    const newAvatarURL = path.join("avatars", filename);
     await User.findByIdAndUpdate(_id, { avatarURL: `${newAvatarURL}` });
-    res.json({ avatarURL });
+    res.json({ avatarURL: `${newAvatarURL}` });
   } catch (error) {
     HttpError(404, err.message);
   }

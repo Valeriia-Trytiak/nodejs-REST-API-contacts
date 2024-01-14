@@ -56,6 +56,25 @@ export const updateSubscriptionSchema = Joi.object({
     .required(),
 });
 
+export const avatarUploadSchema = Joi.object({
+  fieldname: Joi.string().valid("avatar").required(),
+  originalname: Joi.string()
+    .regex(/\.(jpg|jpeg|png)$/i)
+    .required()
+    .messages({
+      "any.required": "file type image/jpg, image/jpeg, image/png",
+    }),
+  size: Joi.number()
+    .max(6 * 1024 * 1024)
+    .required(),
+  mimetype: Joi.string().valid("image/jpeg", "image/png", "image/jpg").required().messages({
+    "any.required": "file type image/jpg, image/jpeg, image/png",
+  }),
+})
+  .label("avatar")
+  .unknown(true)
+  .required();
+
 const User = model("user", userSchema);
 
 export default User;
