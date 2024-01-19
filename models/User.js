@@ -30,6 +30,13 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+    },
   },
   { versionKey: false, timestamps: true }
 );
@@ -75,6 +82,9 @@ export const avatarUploadSchema = Joi.object({
   .unknown(true)
   .required();
 
+export const userEmailShema = Joi.object({
+  email: Joi.string().pattern(emailRegex).required(),
+});
 const User = model("user", userSchema);
 
 export default User;
