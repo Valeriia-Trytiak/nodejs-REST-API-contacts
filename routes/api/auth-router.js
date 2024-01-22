@@ -7,6 +7,7 @@ import {
   userRegisterSchema,
   updateSubscriptionSchema,
   avatarUploadSchema,
+  userEmailShema,
 } from "../../models/User.js";
 
 const authRouter = express.Router();
@@ -22,5 +23,12 @@ authRouter.patch(
   upload.single("avatar"),
   validateAvatar(avatarUploadSchema),
   authController.updateAvatar
+);
+authRouter.get("/verify/:verificationToken", authController.verify);
+authRouter.post(
+  "/verify",
+  isEmplyBody("missing required field email"),
+  validateBody(userEmailShema),
+  authController.resendVerifyEmail
 );
 export default authRouter;
